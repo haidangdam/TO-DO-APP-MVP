@@ -1,0 +1,6 @@
+<resources>
+  <string name="app_name">My Application</string>
+  <string name="action_settings">Settings</string>
+  <string name="no_item_statement">No Item in the list</string>
+  <string name="task_name">Task name</string>
+</resources>

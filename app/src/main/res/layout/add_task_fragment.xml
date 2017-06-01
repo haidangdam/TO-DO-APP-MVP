@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical" android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:weightSum="1">
+
+  <EditText
+    android:id="@+id/task_name_edit_text_add_or_edit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="textPersonName"
+    android:layout_weight="0.09" />
+  <EditText
+    android:id="@+id/task_description_edit_text_add_or_edit"
+    android:layout_width="match_parent"
+    android:layout_height="405dp"
+    android:ems="10"
+    android:inputType="textPersonName" />
+  <Button
+    android:id="@+id/add_button_add_or_edit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.09"
+    android:text="Button" />
+</LinearLayout>
