@@ -3,8 +3,19 @@
   xmlns:tools="http://schemas.android.com/tools"
   tools:context="com.example.haidangdam.myapplication.main_activity.MainActivity">
   <item
-    android:id="@+id/action_settings"
+    android:id="@+id/sort_by_completed"
     android:orderInCategory="100"
-    android:title="@string/action_settings"
-    app:showAsAction="never" />
+    android:title="@string/get_completed" />
+  <item
+    android:id="@+id/sort_by_incomplete"
+    android:orderInCategory="100"
+    android:title="@string/get_uncompleted" />
+  <item
+    android:id="@+id/give_all_action"
+    android:orderInCategory="100"
+    android:title="@string/get_all" />
+  <item
+    android:id="@+id/clear_completed"
+    android:orderInCategory="100"
+    android:title="@string/clear_complete" />
 </menu>

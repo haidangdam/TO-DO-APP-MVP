@@ -22,5 +22,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="0.09"
-    android:text="Button" />
+    android:text="Add Button" />
+  <Button
+    android:id="@+id/delete_button_add_or_edit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.09"
+    android:text="Delete Button" />
 </LinearLayout>

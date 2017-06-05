@@ -27,7 +27,7 @@ public class TaskRepository extends SQLiteOpenHelper {
     db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " + ID + " TEXT PRIMARY KEY, "
         + TASK_NAME + " TEXT NOT NULL CHECK (" + TASK_NAME + " != ''), " + TASK_DESCRIPTION
         + " TEXT NOT NULL CHECK (" + TASK_DESCRIPTION + " != ''), " + STATUS_COMPLETED
-        + " INTEGER NOT NULL);");
+        + " TEXT NOT NULL);");
   }
 
   @Override

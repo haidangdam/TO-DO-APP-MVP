@@ -7,10 +7,12 @@ import com.example.haidangdam.myapplication.task.TaskRepositoryAction;
  * Created by haidangdam on 5/31/17.
  */
 
-public class AddTaskRepository {
+public class AddEditTaskRepository {
   public static TaskRepositoryAction r;
 
-  public AddTaskRepository(Context c) {
-    r = TaskRepositoryAction.newInstance(c);
+  public AddEditTaskRepository(Context c) {
+    if (r == null) {
+      r = TaskRepositoryAction.newInstance(c);
+    }
   }
 }

@@ -20,7 +20,7 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".add_task.AddTaskActivity"></activity>
+      android:name=".add_task.AddEditTaskActivity"></activity>
   </application>
 
 </manifest>

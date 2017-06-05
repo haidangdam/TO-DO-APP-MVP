@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.example.haidangdam.myapplication.R;
 import com.example.haidangdam.myapplication.Task;
-import com.example.haidangdam.myapplication.add_task.AddTaskActivity;
+import com.example.haidangdam.myapplication.add_task.AddEditTaskActivity;
 import java.util.ArrayList;
 /**
  * Created by haidangdam on 5/30/1.
@@ -27,12 +27,15 @@ import java.util.ArrayList;
 public class MainActivityView extends Fragment implements MainActivityInterface.View,
     OnClickListener
 {
-
+  public static final String ID = "id";
+  public static final String NAME = "name";
+  public static final String DESCRIPTION = "description";
+  public static final String STATUS = "status";
   FloatingActionButton addButton;
   ListView listItem;
   TextView textNoItem;
-  MainActivityInterface.Presenter presenter;
-
+  public static MainActivityInterface.Presenter presenter;
+  MainActivityAdapter adapter;
   public static MainActivityView mainActivityView;
   ArrayList<Task> listTask;
   /**
@@ -42,8 +45,10 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
 
   public static MainActivityView newInstance() {
     if (mainActivityView == null) {
+      Log.d("Main fragment", "fragment null");
       mainActivityView = new MainActivityView();
     }
+    Log.d("Main fragment", "Create new fragment");
     return mainActivityView;
   }
 
@@ -54,12 +59,54 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
   @Override
   public void setPresenter(MainActivityInterface.Presenter presenter) {
     this.presenter = presenter;
-    this.presenter.getTaskFromDatabase();
-    Log.d("My Application", "Presenter is set");
+    this.presenter.getAllTaskFromDatabase();
+    Log.d("My Application", "Presentr is set");
   }
 
   @Override
+  public void updateListView() {
+    Log.d("Main activity fragment", "update list view");
+    if (listTask.isEmpty()) {
+      this.presenter.noTaskAppear();
+    } else {
+      this.presenter.loadTask();
+    }
+  }
+
+  @Override
+  public void getCompletedTask() {
+    presenter.getCompletedTask();
+    updateListView();
+  }
+
+  @Override
+  public void getUncompletedTask() {
+    presenter.getUncompletedTask();
+    updateListView();
+  }
+
+  @Override
+  public void deleteCompletedTask() {
+    presenter.deleteCompletedTask();
+    updateListView();
+  }
+
+  @Override
+  public void getAllTaskFromDatabase() {
+    presenter.getAllTaskFromDatabase();
+    updateListView();
+  }
+
+  @Override
+  public void taskAppear() {
+    Log.d("MainvityView", "taskAppear");
+    listItem.setVisibility(View.VISIBLE);
+    textNoItem.setVisibility(View.GONE);
+    setUpListView();
+  }
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.d("Main fragment", "On Create view");
     View view = inflater.inflate(R.layout.activity_fragment, container, false);
     addButton = (FloatingActionButton) view.findViewById(R.id.fab);
     listItem = (ListView) view.findViewById(R.id.main_activity_list);
@@ -74,14 +121,19 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
     return view;
   }
 
+
   @Override
   public void onClick(View v) {
     Log.d("My application", "Add button is set");
     presenter.pressButton();
   }
 
+  /**
+   *
+   */
   private void setUpListView() {
-    BaseAdapter adapter = new MainActivityAdapter(listTask);
+    Log.d("Main fragment", "Set up list view");
+    adapter = new MainActivityAdapter(listTask);
     listItem.setAdapter(adapter);
     listItem.setOnItemClickListener(new OnItemClickListener() {
       @Override
@@ -89,6 +141,25 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
         pressItem(position);
       }
     });
+    Log.d("anc", "" + listItem.getAdapter().getCount());
+  }
+
+
+  @Override
+  public void enterEditTask(Task t) {
+    Log.d("My application", "Enter edit task");
+    Bundle bundle = new Bundle();
+    bundle.putString(NAME, t.getName());
+    bundle.putString(DESCRIPTION, t.getDescription());
+    bundle.putString(ID, t.getId());
+    if (t.getStatusCompleted()) {
+      bundle.putInt(STATUS, 1);
+    } else {
+      bundle.putInt(STATUS, 0);
+    }
+    Intent intent = new Intent(getActivity(), AddEditTaskActivity.class);
+    intent.putExtras(bundle);
+    getActivity().startActivity(intent);
   }
 
   @Override
@@ -98,17 +169,22 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
   }
 
   @Override
-  public void noTaskAppear() {textNoItem.setVisibility(View.VISIBLE);}
+  public void noTaskAppear() {
+    textNoItem.setVisibility(View.VISIBLE);
+    listItem.setVisibility(View.GONE);
+  }
 
   @Override
   public void populateListView(ArrayList<Task> taskList) {
+    Log.d("Main fragment", "Get listw");
     listTask = taskList;
+
   }
 
   @Override
   public void addNewTask() {
-    Intent intent = new Intent(getActivity(), AddTaskActivity.class);
-    getActivity().startActivity(intent);
+    Intent intent = new Intent(getActivity(), AddEditTaskActivity.class);
+    getActivity().startActivityForResult(intent, MainActivityInterface.REQUEST_CODE);
   }
   public static class MainActivityAdapter extends BaseAdapter {
     ArrayList<Task> taskList;
@@ -129,16 +205,37 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-      if (convertView == null) {
-        convertView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list_view,
+      Log.d("Main fragment", "Create view list view "+ taskList.size());
+      View v = convertView;
+      if (v == null) {
+        Log.d("Main fragment", "Convert view is null" + position);
+        v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list_view,
             viewGroup, false);
       }
-      Task task = (Task) getItem(position);
-      CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.item_check_box);
+      final Task task = (Task) getItem(position);
+      CheckBox checkBox = (CheckBox) v.findViewById(R.id.item_check_box);
       checkBox.setChecked(task.getStatusCompleted());
-      TextView textViewItemInTask = (TextView) convertView.findViewById(R.id.item_name);
-      textViewItemInTask.setText(task.getDescription());
-      return convertView;
+      checkBox.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          if (task.getStatusCompleted()) {
+            checkBoxClick(false, task.getId());
+          } else {
+            checkBoxClick(true, task.getId());
+          }
+        }
+      });
+      TextView textViewItemInTask = (TextView) v.findViewById(R.id.item_name);
+      textViewItemInTask.setText(task.getName());
+      textViewItemInTask.setFocusable(false);
+      v.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          presenter.enterEditTask(task);
+        }
+      });
+      Log.d("NAME: ", task.getName());
+      return v;
     }
 
     @Override
@@ -146,6 +243,11 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
       return position;
     }
 
+    public void checkBoxClick(boolean bool, String taskID) {
+      presenter.updateTask(bool, taskID);
+    }
   }
+
+
 
 }

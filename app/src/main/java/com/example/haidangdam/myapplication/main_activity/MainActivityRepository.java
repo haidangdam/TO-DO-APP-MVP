@@ -1,6 +1,7 @@
 package com.example.haidangdam.myapplication.main_activity;
 
 import android.content.Context;
+import android.util.Log;
 import com.example.haidangdam.myapplication.task.TaskRepositoryAction;
 
 /**
@@ -11,6 +12,10 @@ public class MainActivityRepository {
   public static TaskRepositoryAction r;
 
   public MainActivityRepository(Context c) {
-    r = TaskRepositoryAction.newInstance(c);
+    Log.d("Main repository", "Create repo");
+    if (r == null) {
+      Log.d("Main repository", "Create new instance");
+      r = TaskRepositoryAction.newInstance(c);
+    }
   }
 }

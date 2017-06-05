@@ -10,9 +10,12 @@ import java.util.ArrayList;
 public interface TaskRepositoryContract {
   Task getTask(String id);
   ArrayList<Task> getAllTask();
-  void updateTask(Task t);
+  void updateTask(String name, String description, String ID, boolean status);
   void deleteTask(String id);
   void deleteAllTask();
   void addData(Task t);
-
+  ArrayList<Task> sortCompleted();
+  ArrayList<Task> sortUncompleted();
+  void deleteCompletedTask();
+  void updateIsChecked(boolean isChecked, String ID);
 }

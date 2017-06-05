@@ -2,9 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical" android:layout_width="match_parent"
   android:layout_height="match_parent">
-  <fragment
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/my_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="?attr/colorPrimary"
+    android:layout_alignParentTop="true"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    style="@style/ThemeOverlay.AppCompat.Light" />
+
+  <FrameLayout
     android:id="@+id/fragment_in_main"
-    android:name="com.example.haidangdam.myapplication.main_activity.MainActivityView"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"/>
+    android:layout_width="377dp"
+    android:layout_height="match_parent" />
 </LinearLayout>
