@@ -3,7 +3,7 @@ package com.example.haidangdam.myapplication;
 import java.util.Random;
 
 /**
- * Created by haidangdam on 5/30/17.
+ * Created by haidangdam on 5/30/17
  */
 
 public class Task {
@@ -21,35 +21,35 @@ public class Task {
     id = "" + description.hashCode() + "" + name.hashCode() + "" + r.nextInt(100000);
   }
 
-  public String getName() {
+  public String getname() {
     return name;
   }
 
-  public String getDescription() {
+  public String getdescription() {
     return description;
   }
 
-  public boolean getStatusCompleted() {
+  public boolean getcompleted() {
     return completed;
   }
 
-  public void setCompletedStatus(boolean status) {
+  public void setcompleted(boolean status) {
     completed = status;
   }
 
-  public void setName(String name) {
+  public void setname(String name) {
     this.name = name;
   }
 
-  public void setDescription(String description) {
+  public void setdescription(String description) {
     this.description = description;
   }
 
-  public String getId() {
+  public String getid() {
     return id;
   }
 
-  public void setId(String s) {
+  public void setid(String s) {
     id = s;
   }
 

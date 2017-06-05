@@ -2,6 +2,7 @@ package com.example.haidangdam.myapplication.main_activity;
 
 import android.util.Log;
 import com.example.haidangdam.myapplication.Task;
+import java.util.ArrayList;
 
 /**
  * Created by haidangdam on 5/30/17.
@@ -26,7 +27,12 @@ public class MainActivityPresenter implements MainActivityInterface.Presenter {
 
   @Override
   public void getAllTaskFromDatabase() {
-    mainActivityView.populateListView(taskRepo.r.getAllTask());
+    ArrayList<Task> listTask = taskRepo.r.getAllTask();
+    if (listTask.isEmpty()) {
+      getTaskFromFirebase();
+    } else {
+      mainActivityView.populateListView(taskRepo.r.getAllTask());
+    }
   }
 
   @Override
@@ -63,5 +69,18 @@ public class MainActivityPresenter implements MainActivityInterface.Presenter {
   @Override
   public void enterEditTask(Task t) {
     mainActivityView.enterEditTask(t);
+  }
+
+  @Override
+  public boolean checkTimeFromDatabase() {
+    return taskRepo.r.getExpiredData().isEmpty();
+  }
+
+  @Override
+  public void getTaskFromFirebase() {
+    ArrayList<Task> taskList = taskRepo.r.getTaskFromFirebase();
+    taskRepo.r.deleteAllTask();
+    mainActivityView.populateListView(taskList);
+    taskRepo.r.addListTask(taskList);
   }
 }

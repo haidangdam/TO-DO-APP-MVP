@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public interface MainActivityInterface {
   public static final int REQUEST_CODE = 1;
+  public static final int MAXIMUM_ALLOW_TIME = 5 * 60 * 1000;
   interface View {
     void pressItem(int position);
     void populateListView(ArrayList<Task> a);
@@ -35,5 +36,8 @@ public interface MainActivityInterface {
     void getUncompletedTask();
     void deleteCompletedTask();
     void enterEditTask(Task t);
+    boolean checkTimeFromDatabase();
+    void getTaskFromFirebase();
+
   }
 }

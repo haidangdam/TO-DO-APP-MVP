@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import com.example.haidangdam.myapplication.R;
+import com.google.firebase.FirebaseApp;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     Log.d("Main Application", "Activity main");
     super.onCreate(savedInstanceState);
+    FirebaseApp.initializeApp(this);
     setContentView(R.layout.main_activity);
     mainActivityRepository = new MainActivityRepository(this);
     toolBar = (Toolbar) findViewById(R.id.my_toolbar);

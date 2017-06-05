@@ -13,9 +13,12 @@ public interface TaskRepositoryContract {
   void updateTask(String name, String description, String ID, boolean status);
   void deleteTask(String id);
   void deleteAllTask();
-  void addData(Task t);
+  void addData(Task t, long time);
   ArrayList<Task> sortCompleted();
   ArrayList<Task> sortUncompleted();
   void deleteCompletedTask();
   void updateIsChecked(boolean isChecked, String ID);
+  ArrayList<Task> getExpiredData();
+  ArrayList<Task> getTaskFromFirebase();
+  void addListTask(ArrayList<Task> t);
 }

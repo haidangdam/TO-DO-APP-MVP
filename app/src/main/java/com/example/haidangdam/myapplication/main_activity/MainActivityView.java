@@ -59,7 +59,11 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
   @Override
   public void setPresenter(MainActivityInterface.Presenter presenter) {
     this.presenter = presenter;
-    this.presenter.getAllTaskFromDatabase();
+    if (this.presenter.checkTimeFromDatabase()) {
+      this.presenter.getAllTaskFromDatabase();
+    } else {
+      this.presenter.getTaskFromFirebase();
+    }
     Log.d("My Application", "Presentr is set");
   }
 
@@ -149,10 +153,10 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
   public void enterEditTask(Task t) {
     Log.d("My application", "Enter edit task");
     Bundle bundle = new Bundle();
-    bundle.putString(NAME, t.getName());
-    bundle.putString(DESCRIPTION, t.getDescription());
-    bundle.putString(ID, t.getId());
-    if (t.getStatusCompleted()) {
+    bundle.putString(NAME, t.getname());
+    bundle.putString(DESCRIPTION, t.getdescription());
+    bundle.putString(ID, t.getid());
+    if (t.getcompleted()) {
       bundle.putInt(STATUS, 1);
     } else {
       bundle.putInt(STATUS, 0);
@@ -214,19 +218,19 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
       }
       final Task task = (Task) getItem(position);
       CheckBox checkBox = (CheckBox) v.findViewById(R.id.item_check_box);
-      checkBox.setChecked(task.getStatusCompleted());
+      checkBox.setChecked(task.getcompleted());
       checkBox.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          if (task.getStatusCompleted()) {
-            checkBoxClick(false, task.getId());
+          if (task.getcompleted()) {
+            checkBoxClick(false, task.getid());
           } else {
-            checkBoxClick(true, task.getId());
+            checkBoxClick(true, task.getid());
           }
         }
       });
       TextView textViewItemInTask = (TextView) v.findViewById(R.id.item_name);
-      textViewItemInTask.setText(task.getName());
+      textViewItemInTask.setText(task.getname());
       textViewItemInTask.setFocusable(false);
       v.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -234,7 +238,7 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
           presenter.enterEditTask(task);
         }
       });
-      Log.d("NAME: ", task.getName());
+      Log.d("NAME: ", task.getname());
       return v;
     }
 

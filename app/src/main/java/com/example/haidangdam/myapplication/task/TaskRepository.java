@@ -16,6 +16,8 @@ public class TaskRepository extends SQLiteOpenHelper {
   public static final String TASK_DESCRIPTION = "task_description";
   public static final String STATUS_COMPLETED = "status_completed";
   public static final String ID = "id";
+  public static final String TIME = "time";
+
   private static int databaseVersion = 1;
 
   public TaskRepository(Context context) {
@@ -27,7 +29,7 @@ public class TaskRepository extends SQLiteOpenHelper {
     db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " + ID + " TEXT PRIMARY KEY, "
         + TASK_NAME + " TEXT NOT NULL CHECK (" + TASK_NAME + " != ''), " + TASK_DESCRIPTION
         + " TEXT NOT NULL CHECK (" + TASK_DESCRIPTION + " != ''), " + STATUS_COMPLETED
-        + " TEXT NOT NULL);");
+        + " TEXT NOT NULL " + ", " + TIME + " INTEGER NOT NULL" + ");");
   }
 
   @Override

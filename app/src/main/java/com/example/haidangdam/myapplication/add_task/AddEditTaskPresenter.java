@@ -40,7 +40,7 @@ public class AddEditTaskPresenter implements AddEditTaskInterface.Presenter {
   @Override
   public void saveTask(String taskName, String description, boolean alreadyExisted) {
     if (!alreadyExisted) {
-      repo.r.addData(new Task(taskName, description, false));
+      repo.r.addData(new Task(taskName, description, false), System.currentTimeMillis());
     } else {
       repo.r.updateTask(taskName, description, bundle.getString(MainActivityView.ID), bundle.getInt(MainActivityView.STATUS) == 1);
     }
