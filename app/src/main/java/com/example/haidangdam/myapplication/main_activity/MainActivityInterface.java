@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface MainActivityInterface {
   public static final int REQUEST_CODE = 1;
-  public static final int MAXIMUM_ALLOW_TIME = 5 * 60 * 1000;
+  public static final int MAXIMUM_ALLOW_TIME =  1 * 60 * 1000;
   interface View {
     void pressItem(int position);
     void populateListView(ArrayList<Task> a);
@@ -39,5 +39,9 @@ public interface MainActivityInterface {
     boolean checkTimeFromDatabase();
     void getTaskFromFirebase();
 
+  }
+
+  interface FirebaseCallback {
+    void callbackFirebase(ArrayList<Task> t);
   }
 }

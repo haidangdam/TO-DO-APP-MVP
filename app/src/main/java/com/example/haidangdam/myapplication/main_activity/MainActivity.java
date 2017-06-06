@@ -36,13 +36,7 @@ public class MainActivity extends AppCompatActivity {
     getFragmentManager().beginTransaction().add(R.id.fragment_in_main, mainActivityView).commit();
   }
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    mainActivityPresenter.getAllTaskFromDatabase();
-    mainActivityPresenter.loadTask();
-    mainActivityView.updateListView();
-  }
+
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {

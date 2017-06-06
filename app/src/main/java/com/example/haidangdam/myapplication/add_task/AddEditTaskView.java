@@ -29,6 +29,10 @@ public class AddEditTaskView extends Fragment implements AddEditTaskInterface.Vi
 
   public AddEditTaskView() {}
 
+  /**
+   *
+   * @return
+   */
   public static AddEditTaskView newInstance() {
     if (addTaskView == null) {
       addTaskView = new AddEditTaskView();
@@ -36,6 +40,11 @@ public class AddEditTaskView extends Fragment implements AddEditTaskInterface.Vi
     return addTaskView;
   }
 
+  /**
+   *
+   * @param bundle1
+   * @return
+   */
   public static AddEditTaskView newInstance(Bundle bundle1) {
     bundle = bundle1;
     if (addTaskView == null) {
@@ -44,6 +53,11 @@ public class AddEditTaskView extends Fragment implements AddEditTaskInterface.Vi
     return addTaskView;
   }
 
+
+  /**
+   *
+   * @param a
+   */
   @Override
   public void setPresenter(AddEditTaskInterface.Presenter a) {
     addTaskPresenter = a;
@@ -79,6 +93,9 @@ public class AddEditTaskView extends Fragment implements AddEditTaskInterface.Vi
     return v;
   }
 
+  /**
+   *
+   */
   @Override
   public void submitButton() {
     getActivity().setResult(Activity.RESULT_OK);
@@ -86,6 +103,9 @@ public class AddEditTaskView extends Fragment implements AddEditTaskInterface.Vi
     Log.d("My application", "Switch to main");
   }
 
+  /**
+   *
+   */
   @Override
   public void emptyField() {
     Snackbar.make(getActivity().findViewById(R.id.add_task_layout),

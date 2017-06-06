@@ -13,6 +13,8 @@ public class Task {
   String id;
   Random r;
 
+  public Task() {}
+
   public Task(String name, String description, boolean completed) {
     this.name = name;
     this.description = description;

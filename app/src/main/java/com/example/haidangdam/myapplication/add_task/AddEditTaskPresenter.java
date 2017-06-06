@@ -21,6 +21,13 @@ public class AddEditTaskPresenter implements AddEditTaskInterface.Presenter {
     addTaskView.setPresenter(this);
   }
 
+  /**
+   * Save button press
+   * @param taskName the new task name
+   * @param description the new description
+   * @param bundle bundle to differentiate between edit or add (edit
+   *                will have already existed data in bundle)
+   */
   @Override
   public void buttonPress(String taskName, String description, Bundle bundle) {
     Log.d("Main Application", "Add button press");
@@ -37,6 +44,13 @@ public class AddEditTaskPresenter implements AddEditTaskInterface.Presenter {
     }
   }
 
+  /**
+   * To save the task to the database
+   * @param taskName task name in the name field
+   * @param description task description in description field
+   * @param alreadyExisted boolean to differentiate between edit or first-add. If edit, use
+   *  update, otherwise, use add
+   */
   @Override
   public void saveTask(String taskName, String description, boolean alreadyExisted) {
     if (!alreadyExisted) {
@@ -46,6 +60,10 @@ public class AddEditTaskPresenter implements AddEditTaskInterface.Presenter {
     }
   }
 
+  /**
+   * If press the delete button when editting the task
+   * @param bundle the data getting from the task
+   */
   @Override
   public void deleteButtonPress(Bundle bundle) {
     repo.r.deleteTask(bundle.getString(MainActivityView.ID));

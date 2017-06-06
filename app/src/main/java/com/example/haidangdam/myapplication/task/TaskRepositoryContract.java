@@ -1,6 +1,7 @@
 package com.example.haidangdam.myapplication.task;
 
 import com.example.haidangdam.myapplication.Task;
+import com.example.haidangdam.myapplication.main_activity.MainActivityInterface;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +20,8 @@ public interface TaskRepositoryContract {
   void deleteCompletedTask();
   void updateIsChecked(boolean isChecked, String ID);
   ArrayList<Task> getExpiredData();
-  ArrayList<Task> getTaskFromFirebase();
+  void getTaskFromFirebase(MainActivityInterface.FirebaseCallback callback);
   void addListTask(ArrayList<Task> t);
+  void addTaskToFirebase(Task t);
+
 }

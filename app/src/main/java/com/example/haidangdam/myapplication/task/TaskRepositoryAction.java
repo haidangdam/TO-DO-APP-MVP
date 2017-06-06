@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 
 public class TaskRepositoryAction implements TaskRepositoryContract {
-
+  public static boolean HAVE_ADDED = false;
   TaskRepository taskRepository;
   public static TaskRepositoryAction taskRepositoryAction;
   private DatabaseReference taskDatabaseReference;
@@ -65,7 +65,7 @@ public class TaskRepositoryAction implements TaskRepositoryContract {
       db.execSQL(
           "INSERT INTO " + taskRepository.TABLE_NAME + " (" + taskRepository.ID + ", " + taskRepository.TASK_NAME
               + ", " + taskRepository.TASK_DESCRIPTION + ", " + taskRepository.STATUS_COMPLETED
-              + ") VALUES ('" + t.getid() + "', '" + t.getname() + "', '"
+              + ", " + taskRepository.TIME + ") VALUES ('" + t.getid() + "', '" + t.getname() + "', '"
               + t.getdescription() + "', '" + completed + "', " + time + ");");
       Log.d("Database", "Add succeed");
     } }
@@ -185,8 +185,9 @@ public class TaskRepositoryAction implements TaskRepositoryContract {
    */
   @Override
   public void deleteAllTask() {
+    Log.d("My application", "Delete all from data");
     SQLiteDatabase db = taskRepository.getWritableDatabase();
-    db.execSQL("DELETE * FROM " + taskRepository.TABLE_NAME + ";");
+    db.execSQL("DELETE FROM " + taskRepository.TABLE_NAME + ";");
   }
 
   /**
@@ -256,23 +257,29 @@ public class TaskRepositoryAction implements TaskRepositoryContract {
   }
 
   @Override
-  public ArrayList<Task> getTaskFromFirebase() {
+  public void getTaskFromFirebase(MainActivityInterface.FirebaseCallback callback1) {
+    Log.d("My application", "Get task from firebase");
+    final MainActivityInterface.FirebaseCallback callback = callback1;
     taskDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
-      public void onDataChange(DataSnapshot dataSnapshot){
+      public void onDataChange(DataSnapshot dataSnapshot) {
         for (DataSnapshot a : dataSnapshot.getChildren()) {
+          Log.d("My application", "Add task from firebase to list");
           taskFromFirebase.add((Task) a.getValue(Task.class));
         }
-        completed = true;
+        callback.callbackFirebase(taskFromFirebase);
+        addListTask(taskFromFirebase);
       }
-
       @Override
       public void onCancelled(DatabaseError err) {
-        Log.d("My application", err.getDetails());
-      }
+          Log.d("My application", err.getDetails());
+        }
     });
-    while (completed == false) {}
-    return taskFromFirebase;
+  }
+
+  @Override
+  public void addTaskToFirebase(Task t) {
+
   }
 
   @Override
@@ -281,4 +288,5 @@ public class TaskRepositoryAction implements TaskRepositoryContract {
       addData(task, System.currentTimeMillis());
     }
   }
+
 }
