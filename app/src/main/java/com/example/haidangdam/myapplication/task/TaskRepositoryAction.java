@@ -23,7 +23,7 @@ public class TaskRepositoryAction implements TaskRepositoryContract {
   TaskRepository taskRepository;
   public static TaskRepositoryAction taskRepositoryAction;
   private DatabaseReference taskDatabaseReference;
-  private ArrayList<Task> taskFromFirebase;
+  private static ArrayList<Task> taskFromFirebase;
   private boolean completed = false;
   /**
    *
@@ -278,8 +278,18 @@ public class TaskRepositoryAction implements TaskRepositoryContract {
   }
 
   @Override
-  public void addTaskToFirebase(Task t) {
-
+  public void addTaskToFirebase(Task t, MainActivityInterface.AddFirebaseCallback callback) {
+    final Task task = t;
+    final MainActivityInterface.AddFirebaseCallback firebaseCallback = callback;
+    taskFromFirebase.add(t);
+    taskDatabaseReference.setValue(taskFromFirebase, new DatabaseReference.CompletionListener() {
+      @Override
+      public void onComplete(DatabaseError e, DatabaseReference r) {
+        Log.d("Task Repository", "Add task to database successful");
+        addData(task, System.currentTimeMillis());
+        firebaseCallback.callback();
+      }
+    });
   }
 
   @Override

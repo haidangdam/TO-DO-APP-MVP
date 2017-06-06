@@ -44,4 +44,8 @@ public interface MainActivityInterface {
   interface FirebaseCallback {
     void callbackFirebase(ArrayList<Task> t);
   }
+
+  interface AddFirebaseCallback {
+    void callback();
+  }
 }

@@ -11,7 +11,6 @@ public class Task {
   String description;
   boolean completed;
   String id;
-  Random r;
 
   public Task() {}
 
@@ -19,8 +18,7 @@ public class Task {
     this.name = name;
     this.description = description;
     this.completed = completed;
-    r = new Random();
-    id = "" + description.hashCode() + "" + name.hashCode() + "" + r.nextInt(100000);
+    id = "" + description.hashCode() + "" + name.hashCode() + "" + (new Random()).nextInt(100000);
   }
 
   public String getname() {
@@ -56,7 +54,7 @@ public class Task {
   }
 
   public void updateID() {
-    id = "" + description.hashCode() + "" + name.hashCode() + "" + r.nextInt(100000);
+    id = "" + description.hashCode() + "" + name.hashCode() + "" + (new Random()).nextInt(100000);
   }
 
 }

@@ -22,6 +22,6 @@ public interface TaskRepositoryContract {
   ArrayList<Task> getExpiredData();
   void getTaskFromFirebase(MainActivityInterface.FirebaseCallback callback);
   void addListTask(ArrayList<Task> t);
-  void addTaskToFirebase(Task t);
+  void addTaskToFirebase(Task t, MainActivityInterface.AddFirebaseCallback addCallback);
 
 }

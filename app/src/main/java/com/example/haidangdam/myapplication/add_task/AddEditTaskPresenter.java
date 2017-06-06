@@ -3,6 +3,7 @@ package com.example.haidangdam.myapplication.add_task;
 import android.os.Bundle;
 import android.util.Log;
 import com.example.haidangdam.myapplication.Task;
+import com.example.haidangdam.myapplication.main_activity.MainActivityInterface;
 import com.example.haidangdam.myapplication.main_activity.MainActivityView;
 
 /**
@@ -39,8 +40,8 @@ public class AddEditTaskPresenter implements AddEditTaskInterface.Presenter {
       } else {
         this.bundle = bundle;
         saveTask(taskName, description, true);
+        addTaskView.submitButton();
       }
-      addTaskView.submitButton();
     }
   }
 
@@ -54,7 +55,12 @@ public class AddEditTaskPresenter implements AddEditTaskInterface.Presenter {
   @Override
   public void saveTask(String taskName, String description, boolean alreadyExisted) {
     if (!alreadyExisted) {
-      repo.r.addData(new Task(taskName, description, false), System.currentTimeMillis());
+      repo.r.addTaskToFirebase(new Task(taskName, description, false), new MainActivityInterface.AddFirebaseCallback() {
+        @Override
+        public void callback() {
+          addTaskView.submitButton();
+        }
+      });
     } else {
       repo.r.updateTask(taskName, description, bundle.getString(MainActivityView.ID), bundle.getInt(MainActivityView.STATUS) == 1);
     }

@@ -129,13 +129,13 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
     View view = inflater.inflate(R.layout.activity_fragment, container, false);
     addButton = (FloatingActionButton) view.findViewById(R.id.fab);
     listItem = (ListView) view.findViewById(R.id.main_activity_list);
+    textNoItem = (TextView) view.findViewById(R.id.text_view_in_main_screen);
     if (this.presenter.checkTimeFromDatabase()) {
       this.presenter.getAllTaskFromDatabase();
     } else {
       TaskRepositoryAction.HAVE_ADDED = false;
       this.presenter.getTaskFromFirebase();
     }
-    textNoItem = (TextView) view.findViewById(R.id.text_view_in_main_screen);
     addButton.setOnClickListener(this);
     textNoItem.setVisibility(View.GONE);
     if (listTask != null && listTask.size() == 0) {
@@ -160,7 +160,9 @@ public class MainActivityView extends Fragment implements MainActivityInterface.
   public void setUpListView() {
     Log.d("Main fragment", "Set up list view");
     adapter = new MainActivityAdapter(listTask);
+    listItem.setVisibility(View.VISIBLE);
     listItem.setAdapter(adapter);
+    textNoItem.setVisibility(View.GONE);
     listItem.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
